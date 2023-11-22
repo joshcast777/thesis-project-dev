@@ -132,7 +132,7 @@ export default function PersonalInformation(): JSX.Element {
 	return (
 		<div className="container my-10 flex justify-center">
 			<div className="w-full space-y-10 overflow-hidden rounded-xl border bg-background p-3 shadow sm:w-[40rem]">
-				<h1 className="text-center text-5xl font-semibold tracking-tight">Preguntas encuesta</h1>
+				<h1 className="text-center text-5xl font-semibold tracking-tight">Formulario</h1>
 
 				<p className="text-xl">Bienvenido, esta es una encuenta para el proyecto de tesis que nos permitirá conocer si las definiciones, ejemplos y casos de uso generados por una Inteligencia Artificial (AI) pueden ser relevantes a la hora de sintetizar textos científicos</p>
 
