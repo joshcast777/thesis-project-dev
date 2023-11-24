@@ -27,10 +27,10 @@ import { PersonAnswerInsert, Term } from "@/types";
 import { cn } from "./lib/utils";
 
 /* CONSTANTS */
-import { AGREE, DEFINITION_AGREEMENT_QUESTION, DISAGREE, EXAMPLE_AGREEMENT_QUESTION, FIELD_DEFINITION_ANSWER, FIELD_EXAMPLE_ANSWER, FIELD_USE_CASE_ANSWER, NEUTRAL, PERSON_DEFAULT, READ_DEFINITION, READ_EXAMPLE, READ_USE_CASE, SOMEWHAT_AGREE, SOMEWHAT_DISAGREE, TERM_DEFAULT, USE_CASE_AGREEMENT_QUESTION } from "@/constants";
+import { AGREE, DEFINITION_AGREEMENT_QUESTION, DISAGREE, EXAMPLE_AGREEMENT_QUESTION, FIELD_ANSWERS, FIELD_DEFINITION_ANSWER, FIELD_DNI, FIELD_EXAMPLE_ANSWER, FIELD_USE_CASE_ANSWER, NEUTRAL, PERSON_DEFAULT, READ_DEFINITION, READ_EXAMPLE, READ_USE_CASE, TOTALLY_AGREE, TOTALLY_DISAGREE, TERM_DEFAULT, USE_CASE_AGREEMENT_QUESTION } from "@/constants";
 
 /* ICONS */
-import { Loader2, Play } from "lucide-react";
+import { Angry, Frown, Laugh, Loader2, Meh, Play, Smile } from "lucide-react";
 
 /**
  * Props for the form question
@@ -98,6 +98,7 @@ export default function TermQuestions(): JSX.Element {
 	const isPersonLoading = usePersonStore(state => state.isLoading);
 	const person = usePersonStore(state => state.person);
 	const addPersonAnswer = usePersonStore(state => state.addPersonAnswer);
+	const getPerson = usePersonStore(state => state.getPerson);
 	const updatePerson = usePersonStore(state => state.updatePerson);
 
 	const currentTerm = useTermStore(state => state.currentTerm);
@@ -108,10 +109,20 @@ export default function TermQuestions(): JSX.Element {
 
 	useEffect(() => {
 		async function getTermInPage(): Promise<void> {
-			if (JSON.stringify(person) !== JSON.stringify(PERSON_DEFAULT)) {
-				setCurrentTermIndex(person.answers);
+			if (localStorage.getItem(FIELD_ANSWERS) !== null) {
+				if (JSON.stringify(person) === JSON.stringify(PERSON_DEFAULT)) {
+					await getPerson(localStorage.getItem(FIELD_DNI)!);
 
-				await getTerm();
+					setCurrentTermIndex(parseInt(localStorage.getItem(FIELD_ANSWERS)!));
+
+					if (errorMessage === "") {
+						await getTerm();
+					}
+				} else {
+					setCurrentTermIndex(parseInt(localStorage.getItem(FIELD_ANSWERS)!));
+
+					await getTerm();
+				}
 			}
 		}
 
@@ -156,46 +167,51 @@ export default function TermQuestions(): JSX.Element {
 						<FormControl>
 							<RadioGroup {...field} onValueChange={field.onChange} defaultValue={field.value} className={`space-y-3 ${inputClass(fieldState.invalid)}`}>
 								<FormQuestionItem
-									className={cn("border-red-500 text-red-700", {
-										"bg-red-200": form.getValues()[name] === DISAGREE
+									className={cn("border-red-500 text-red-500", {
+										"bg-red-500 text-white": form.getValues()[name] === DISAGREE
 									})}
-									label="Desacuerdo"
+									icon={<Angry className="h-10 w-10" />}
+									label="Totalmente en desacuerdo"
 									value={DISAGREE}
 									radioId={`${name}-${DISAGREE}`}
 								/>
 
 								<FormQuestionItem
-									className={cn("border-orange-500 text-orange-600", {
-										"bg-orange-200": form.getValues()[name] === SOMEWHAT_DISAGREE
+									className={cn("border-orange-400 text-orange-500", {
+										"bg-orange-400 text-white": form.getValues()[name] === TOTALLY_DISAGREE
 									})}
-									label="Poco desacuerdo"
-									value={SOMEWHAT_DISAGREE}
-									radioId={`${name}-${SOMEWHAT_DISAGREE}`}
+									icon={<Frown className="h-10 w-10" />}
+									label="En desacuerdo"
+									value={TOTALLY_DISAGREE}
+									radioId={`${name}-${TOTALLY_DISAGREE}`}
 								/>
 
 								<FormQuestionItem
-									className={cn("border-yellow-500 text-yellow-600", {
-										"bg-yellow-100": form.getValues()[name] === NEUTRAL
+									className={cn("border-yellow-500 text-yellow-500", {
+										"bg-yellow-500 text-white": form.getValues()[name] === NEUTRAL
 									})}
+									icon={<Meh className="h-10 w-10" />}
 									label="Neutral"
 									value={NEUTRAL}
 									radioId={`${name}-${NEUTRAL}`}
 								/>
 
 								<FormQuestionItem
-									className={cn("border-green-500 text-green-600", {
-										"bg-green-100": form.getValues()[name] === SOMEWHAT_AGREE
+									className={cn("border-green-500 text-green-500", {
+										"bg-green-500 text-white": form.getValues()[name] === TOTALLY_AGREE
 									})}
-									label="Poco de acuerdo"
-									value={SOMEWHAT_AGREE}
-									radioId={`${name}-${SOMEWHAT_AGREE}`}
+									icon={<Smile className="h-10 w-10" />}
+									label="De acuerdo"
+									value={TOTALLY_AGREE}
+									radioId={`${name}-${TOTALLY_AGREE}`}
 								/>
 
 								<FormQuestionItem
-									className={cn("border-blue-500 text-blue-600", {
-										"bg-blue-100": form.getValues()[name] === AGREE
+									className={cn("border-blue-500 text-blue-500", {
+										"bg-blue-500 text-white": form.getValues()[name] === AGREE
 									})}
-									label="De acuerdo"
+									icon={<Laugh className="h-10 w-10" />}
+									label="Totalmente de acuerdo"
 									value={AGREE}
 									radioId={`${name}-${AGREE}`}
 								/>
@@ -212,7 +228,7 @@ export default function TermQuestions(): JSX.Element {
 	if (isTermLoading) {
 		return (
 			<div className="container my-10">
-				<div className="m-auto flex w-full justify-center overflow-hidden rounded-xl border bg-background p-3 shadow sm:w-[60rem]">
+				<div className="m-auto flex w-full justify-center overflow-hidden rounded-xl border bg-background p-3 shadow lg:max-w-[60rem]">
 					<Loader2 className="h-16 w-16 animate-spin" />
 				</div>
 			</div>
@@ -225,7 +241,7 @@ export default function TermQuestions(): JSX.Element {
 
 	return (
 		<div className="container my-10">
-			<div className="m-auto w-full overflow-hidden rounded-xl border bg-background p-3 shadow sm:w-[60rem]">
+			<div className="m-auto w-full overflow-hidden rounded-xl border bg-background p-3 shadow lg:max-w-[60rem]">
 				<p className="mb-3 text-center text-xl">Término N° {currentTerm.id}</p>
 
 				<h1 className="mb-10 text-center text-5xl font-semibold tracking-tight first-letter:uppercase">{currentTerm.complexWord}</h1>

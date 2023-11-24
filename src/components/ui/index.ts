@@ -1,4 +1,5 @@
 // COMPONENTS
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Badge, badgeVariants } from "@/components/ui/badge";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { useFormField, Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
@@ -13,7 +14,7 @@ import { useToast } from "@/components/ui/use-toast";
 // TYPES
 import { ToastProps, ToastActionElement } from "@/components/ui/toast";
 
-export { Button, FormItem, FormLabel, FormControl, FormDescription, FormMessage, Label, Input, RadioGroup, RadioGroupItem, Separator, ToastProvider, ToastViewport, Toast, ToastTitle, ToastDescription, ToastClose, ToastAction };
+export { Alert, AlertDescription, AlertTitle, Button, FormItem, FormLabel, FormControl, FormDescription, FormMessage, Label, Input, RadioGroup, RadioGroupItem, Separator, ToastProvider, ToastViewport, Toast, ToastTitle, ToastDescription, ToastClose, ToastAction };
 
 export { Badge, Form, FormField, Toaster };
 

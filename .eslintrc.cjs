@@ -11,7 +11,7 @@ module.exports = {
 	rules: {
 		"react-refresh/only-export-components": ["warn", { allowConstantExport: true }],
 		"@stylistic/indent": ["error", "tab"],
-		"linebreak-style": ["error", "unix"],
+		"linebreak-style": ["error", "windows"],
 		quotes: ["error", "double"],
 		semi: ["error", "always"]
 	}

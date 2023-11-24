@@ -2,7 +2,7 @@
 import { BrowserRouter, Routes, Navigate, Route } from "react-router-dom";
 
 /* CONSTANTS */
-import { ROOT_ROUTE, PERSON_DEFAULT, TERM_ROUTE } from "@/constants";
+import { ROOT_ROUTE, PERSON_DEFAULT, TERM_ROUTE, FIELD_DNI } from "@/constants";
 
 /* PAGES */
 import PersonalInformation from "@/PersonalInformation";
@@ -24,13 +24,15 @@ import { usePersonStore } from "@/store";
 export default function AppRoutes(): JSX.Element {
 	const person = usePersonStore(state => state.person);
 
+	const localPersonDni: string | null = localStorage.getItem(FIELD_DNI);
+
 	return (
 		<BrowserRouter>
 			<Routes>
 				<Route
 					path={ROOT_ROUTE}
 					element={
-						<PublicRoutes isAuthenticated={JSON.stringify(person) === JSON.stringify(PERSON_DEFAULT)} redirectTo={TERM_ROUTE}>
+						<PublicRoutes isAuthenticated={localPersonDni === null && JSON.stringify(person) === JSON.stringify(PERSON_DEFAULT)} redirectTo={TERM_ROUTE}>
 							<PersonalInformation />
 						</PublicRoutes>
 					}
@@ -39,7 +41,7 @@ export default function AppRoutes(): JSX.Element {
 				<Route
 					path={TERM_ROUTE}
 					element={
-						<PrivateRoutes isAuthenticated={JSON.stringify(person) === JSON.stringify(PERSON_DEFAULT)} redirectTo={ROOT_ROUTE}>
+						<PrivateRoutes isAuthenticated={localPersonDni === null && JSON.stringify(person) === JSON.stringify(PERSON_DEFAULT)} redirectTo={ROOT_ROUTE}>
 							<TermQuestions />
 						</PrivateRoutes>
 					}

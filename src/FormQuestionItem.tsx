@@ -12,6 +12,7 @@ import { cn } from "./lib/utils";
  */
 type FormQuestionItemProp = {
 	className: string;
+	icon: JSX.Element;
 	label: string;
 	value: string;
 	radioId: string;
@@ -29,15 +30,16 @@ type FormQuestionItemProp = {
  * @param {string} param0.radioId
  * @returns {*}
  */
-export function FormQuestionItem({ className, label, value, radioId }: FormQuestionItemProp) {
+export function FormQuestionItem({ className, icon, label, value, radioId }: FormQuestionItemProp) {
 	return (
 		<FormItem className={cn("flex items-center space-y-0 rounded-md border bg-background font-medium shadow lg:flex-1 lg:text-center", className)}>
 			<FormControl>
 				<RadioGroupItem value={value} id={radioId} className="hidden" />
 			</FormControl>
 
-			<FormLabel htmlFor={radioId} className="mt-0 block w-full p-3 text-xl hover:cursor-pointer">
-				{label}
+			<FormLabel htmlFor={radioId} className="mt-0 flex w-full items-center p-3 text-xl hover:cursor-pointer">
+				{icon}
+				<span className="flex-1 text-center">{label}</span>
 			</FormLabel>
 		</FormItem>
 	);

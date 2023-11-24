@@ -50,6 +50,7 @@ type Database = {
 		Enums: {
 			AgreementLevel: AGREE | DISAGREE | NEUTRAL | SOMEWHAT_AGREE | SOMEWHAT_DISAGREE;
 			EducationLevel: HIGH_LEVEL | LOW_LEVEL | MIDDLE_LEVEL;
+			Sex: FEMALE | MALE;
 		};
 	};
 };

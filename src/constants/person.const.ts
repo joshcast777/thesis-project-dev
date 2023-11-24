@@ -17,6 +17,13 @@ const PERSONS: string = "Persons";
  */
 const FIELD_AGE: string = "age";
 /**
+ * Name of the answers field
+ * @date 21/11/2023 - 3:00:19
+ *
+ * @type {string}
+ */
+const FIELD_ANSWERS: string = "answers";
+/**
  * Name of the DNI field
  * @date 21/11/2023 - 3:00:18
  *
@@ -37,6 +44,13 @@ const FIELD_EDUCATION_LEVEL: string = "educationLevel";
  * @type {string}
  */
 const FIELD_NAME: string = "name";
+/**
+ * Name of the sex field
+ * @date 21/11/2023 - 3:00:18
+ *
+ * @type {string}
+ */
+const FIELD_SEX: string = "sex";
 
 /**
  * Default values for a Person object
@@ -49,8 +63,9 @@ const PERSON_DEFAULT: Person = {
 	answers: "",
 	dni: "",
 	id: "",
-	name: "",
-	educationLevel: ""
+	name: ""
+	// sex: "",
+	// educationLevel: ""
 } as const;
 
-export { FIELD_AGE, FIELD_DNI, FIELD_EDUCATION_LEVEL, FIELD_NAME, PERSONS, PERSON_DEFAULT };
+export { FIELD_AGE, FIELD_ANSWERS, FIELD_DNI, FIELD_EDUCATION_LEVEL, FIELD_NAME, FIELD_SEX, PERSONS, PERSON_DEFAULT };
