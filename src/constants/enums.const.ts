@@ -36,19 +36,19 @@ const DISAGREE: string = "disagree";
  */
 const NEUTRAL: string = "neutral";
 /**
- * Value somewhat agree for the agreement level
+ * Value totally agree for the agreement level
  * @date 21/11/2023 - 3:05:29
  *
  * @type {string}
  */
-const SOMEWHAT_AGREE: string = "somewhatAgree";
+const TOTALLY_AGREE: string = "totallyAgree";
 /**
- * Value somewhat disagree for the agreement level
+ * Value totally disagree for the agreement level
  * @date 21/11/2023 - 3:05:29
  *
  * @type {string}
  */
-const SOMEWHAT_DISAGREE: string = "somewhatDisagree";
+const TOTALLY_DISAGREE: string = "totallyDisagree";
 
 /**
  * Name of the education level enum
@@ -80,4 +80,42 @@ const LOW_LEVEL: string = "lowLevel";
  */
 const MIDDLE_LEVEL: string = "middleLevel";
 
-export { AGREE, AGREEMENT_LEVEL, DISAGREE, EDUCATION_LEVEL, ENUMS, HIGH_LEVEL, LOW_LEVEL, MIDDLE_LEVEL, NEUTRAL, SOMEWHAT_AGREE, SOMEWHAT_DISAGREE };
+/**
+ * Name of the sex enum
+ * @date 21/11/2023 - 3:05:29
+ *
+ * @type {string}
+ */
+const SEX: string = "sex";
+
+/**
+ * Value female for the sex
+ * @date 21/11/2023 - 3:05:29
+ *
+ * @type {string}
+ */
+const FEMALE: string = "F";
+/**
+ * Value male for the education level
+ * @date 21/11/2023 - 3:05:29
+ *
+ * @type {string}
+ */
+const MALE: string = "M";
+
+/**
+ * Value female for the sex
+ * @date 21/11/2023 - 3:05:29
+ *
+ * @type {string}
+ */
+const FEMALE_NAME: string = "Female";
+/**
+ * Value male for the education level
+ * @date 21/11/2023 - 3:05:29
+ *
+ * @type {string}
+ */
+const MALE_NAME: string = "Male";
+
+export { AGREE, AGREEMENT_LEVEL, DISAGREE, EDUCATION_LEVEL, ENUMS, FEMALE, FEMALE_NAME, HIGH_LEVEL, LOW_LEVEL, MALE, MALE_NAME, MIDDLE_LEVEL, NEUTRAL, SEX, TOTALLY_AGREE, TOTALLY_DISAGREE };

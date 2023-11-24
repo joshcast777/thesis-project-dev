@@ -21,87 +21,85 @@ import { GET_TERM, SET_CURRENT_TERM_INDEX, TERM_DEFAULT } from "@/constants";
  * @type {*}
  */
 export const useTermStore = create<TermStore>()(
-	devtools(
-		(set, get) => ({
-			currentTerm: TERM_DEFAULT,
-			currentTermIndex: 0,
-			errorMessage: "",
-			isLoading: false,
-			getTerm: async (): Promise<void> => {
+	devtools((set, get) => ({
+		currentTerm: TERM_DEFAULT,
+		currentTermIndex: 0,
+		errorMessage: "",
+		isLoading: false,
+		getTerm: async (): Promise<void> => {
+			set(
+				(state: TermStore): TermStore => ({
+					...state,
+					currentTermIndex: state.currentTermIndex + 1,
+					isLoading: true
+				}),
+				false,
+				GET_TERM
+			);
+
+			const { currentTermIndex } = get();
+
+			const { data: currentTerm, error }: PostgrestSingleResponse<Term> = await getTerm(currentTermIndex);
+
+			if (error !== null) {
 				set(
 					(state: TermStore): TermStore => ({
 						...state,
-						currentTermIndex: state.currentTermIndex + 1,
-						isLoading: true
-					}),
-					false,
-					GET_TERM
-				);
-
-				const { currentTermIndex } = get();
-
-				const { data: currentTerm, error }: PostgrestSingleResponse<Term> = await getTerm(currentTermIndex);
-
-				if (error !== null) {
-					set(
-						(state: TermStore): TermStore => ({
-							...state,
-							currentTermIndex: state.currentTermIndex - 1,
-							isLoading: false,
-							errorMessage: error.message
-						}),
-						false,
-						GET_TERM
-					);
-
-					setTimeout((): void => {
-						set(
-							(state: TermStore): TermStore => ({
-								...state,
-								errorMessage: ""
-							}),
-							false,
-							GET_TERM
-						);
-					}, 3000);
-
-					return;
-				}
-
-				if (currentTerm.length === 0) {
-					set(
-						(state: TermStore): TermStore => ({
-							...state,
-							currentTermIndex: -1,
-							isLoading: false
-						}),
-						false,
-						GET_TERM
-					);
-
-					return;
-				}
-
-				set(
-					(state: TermStore): TermStore => ({
-						...state,
+						currentTermIndex: state.currentTermIndex - 1,
 						isLoading: false,
-						currentTerm: currentTerm[0]
+						errorMessage: error.message
 					}),
 					false,
 					GET_TERM
 				);
-			},
-			setCurrentTermIndex: (currentTermIndex: number): void => {
+
+				setTimeout((): void => {
+					set(
+						(state: TermStore): TermStore => ({
+							...state,
+							errorMessage: ""
+						}),
+						false,
+						GET_TERM
+					);
+				}, 3000);
+
+				return;
+			}
+
+			if (currentTerm.length === 0) {
 				set(
 					(state: TermStore): TermStore => ({
 						...state,
-						currentTermIndex
+						currentTermIndex: -1,
+						isLoading: false
 					}),
 					false,
-					SET_CURRENT_TERM_INDEX
+					GET_TERM
 				);
+
+				return;
 			}
-		})
-	)
+
+			set(
+				(state: TermStore): TermStore => ({
+					...state,
+					isLoading: false,
+					currentTerm: currentTerm[0]
+				}),
+				false,
+				GET_TERM
+			);
+		},
+		setCurrentTermIndex: (currentTermIndex: number): void => {
+			set(
+				(state: TermStore): TermStore => ({
+					...state,
+					currentTermIndex
+				}),
+				false,
+				SET_CURRENT_TERM_INDEX
+			);
+		}
+	}))
 );
