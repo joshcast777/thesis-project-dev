@@ -9,9 +9,9 @@ import App from "./App.tsx";
 import { Toaster } from "@/components/ui";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
-	<>
+	<React.StrictMode>
 		<App />
 
 		<Toaster />
-	</>
+	</React.StrictMode>
 );
