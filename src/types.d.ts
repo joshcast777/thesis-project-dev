@@ -1,4 +1,5 @@
-import { AGREE, AGREEMENT_LEVEL, DISAGREE, EDUCATION_LEVEL, ENUMS, FEMALE, FIELD_AGE, FIELD_ANSWERS, FIELD_COMPLEX_WORD, FIELD_DEFINITION, FIELD_DEFINITION_ANSWER, FIELD_DIFFICULTY, FIELD_DNI, FIELD_EDUCATION_LEVEL, FIELD_EXAMPLE, FIELD_EXAMPLE_ANSWER, FIELD_ID, FIELD_NAME, FIELD_SEX, FIELD_TEXT_ID, FIELD_USE_CASE, FIELD_USE_CASE_ANSWER, HIGH_LEVEL, INSERT, LOW_LEVEL, MALE, MIDDLE_LEVEL, PERSONS, PERSON_ANSWERS, PUBLIC, ROW, SEX, TOTALLY_AGREE, TOTALLY_DISAGREE, TABLES, TERMS } from "@/constants";
+import { AGREE, AGREEMENT_LEVEL, DISAGREE, EDUCATION_LEVEL, ENUMS, FEMALE, HIGH_LEVEL, INSERT, LOW_LEVEL, MALE, MIDDLE_LEVEL, PERSONS, PUBLIC, ROW, TOTALLY_AGREE, TOTALLY_DISAGREE, TABLES, TERMS
+} from "@/constants";
 
 /**
  * Type for all types from database
@@ -7,54 +8,52 @@ import { AGREE, AGREEMENT_LEVEL, DISAGREE, EDUCATION_LEVEL, ENUMS, FEMALE, FIELD
  * @typedef {Database}
  */
 type Database = {
-	[PUBLIC]: {
-		[TABLES]: {
-			[TERMS]: {
-				[ROW]: {
-					[FIELD_COMPLEX_WORD]: string;
-					[FIELD_DEFINITION]: string;
-					[FIELD_DIFFICULTY]: number;
-					[FIELD_EXAMPLE]: string;
-					[FIELD_ID]: number;
-					[FIELD_TEXT_ID]: string;
-					[FIELD_USE_CASE]: string;
+	public: {
+		Tables: {
+			Terms: {
+				Row: {
+					complexWord: string;
+					definition: string;
+					difficulty: number;
+					example: string;
+					id: number;
+					textId: string;
+					useCase: string;
 				};
 			};
-			[PERSON_ANSWERS]: {
-				[INSERT]: {
-					[FIELD_DEFINITION_ANSWER]: Database[PUBLIC][ENUMS][AGREEMENT_LEVEL];
-					[FIELD_EXAMPLE_ANSWER]: Database[PUBLIC][ENUMS][AGREEMENT_LEVEL];
-					[FIELD_ID]?: number;
+			PersonAnswers: {
+				Insert: {
+					definitionAnswer: Database[PUBLIC][ENUMS][AGREEMENT_LEVEL];
+					exampleAnswer: Database[PUBLIC][ENUMS][AGREEMENT_LEVEL];
+					id?: number;
 					personId: number;
 					termId: number;
-					[FIELD_USE_CASE_ANSWER]: Database[PUBLIC][ENUMS][AGREEMENT_LEVEL];
+					useCaseAnswer: Database[PUBLIC][ENUMS][AGREEMENT_LEVEL];
 				};
 			};
-			[PERSONS]: {
-				[ROW]: {
-					[FIELD_AGE]: number;
-					[FIELD_ANSWERS]: number;
-					[FIELD_DNI]: string;
-					[FIELD_SEX]: Database[PUBLIC][ENUMS][SEX];
-					[FIELD_EDUCATION_LEVEL]: Database[PUBLIC][ENUMS][EDUCATION_LEVEL];
-					[FIELD_ID]: number;
-					[FIELD_NAME]: string;
+			Persons: {
+				Row: {
+					age: number;
+					answers: number;
+					dni: string;
+					educationLevel: Database[PUBLIC][ENUMS][EDUCATION_LEVEL];
+					id: number;
+					name: string;
 				};
-				[INSERT]: {
-					[FIELD_AGE]: number;
-					[FIELD_ANSWERS]: number;
-					[FIELD_DNI]: string;
-					[FIELD_SEX]: Database[PUBLIC][ENUMS][SEX];
-					[FIELD_EDUCATION_LEVEL]: Database[PUBLIC][ENUMS][EDUCATION_LEVEL];
-					[FIELD_ID]?: number;
-					[FIELD_NAME]: string;
+				Insert: {
+					age: number;
+					answers: number;
+					dni: string;
+					educationLevel: Database[PUBLIC][ENUMS][EDUCATION_LEVEL];
+					id?: number;
+					name: string;
 				};
 			};
 		};
-		[ENUMS]: {
-			[AGREEMENT_LEVEL]: AGREE | DISAGREE | NEUTRAL | TOTALLY_AGREE | TOTALLY_DISAGREE;
-			[EDUCATION_LEVEL]: HIGH_LEVEL | LOW_LEVEL | MIDDLE_LEVEL;
-			[SEX]: FEMALE | MALE;
+		Enums: {
+			AgreementLevel: AGREE | DISAGREE | NEUTRAL | TOTALLY_AGREE | TOTALLY_DISAGREE;
+			EducationLevel: HIGH_LEVEL | LOW_LEVEL | MIDDLE_LEVEL;
+			Sex: FEMALE | MALE;
 		};
 	};
 };
