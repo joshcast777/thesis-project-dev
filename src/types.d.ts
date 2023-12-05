@@ -1,3 +1,6 @@
+import { AGREE, AGREEMENT_LEVEL, DISAGREE, EDUCATION_LEVEL, ENUMS, FEMALE, HIGH_LEVEL, INSERT, LOW_LEVEL, MALE, MIDDLE_LEVEL, PERSONS, PUBLIC, ROW, TOTALLY_AGREE, TOTALLY_DISAGREE, TABLES, TERMS
+} from "@/constants";
+
 /**
  * Type for all types from database
  * @date 21/11/2023 - 0:50:26
@@ -48,7 +51,7 @@ type Database = {
 			};
 		};
 		Enums: {
-			AgreementLevel: AGREE | DISAGREE | NEUTRAL | SOMEWHAT_AGREE | SOMEWHAT_DISAGREE;
+			AgreementLevel: AGREE | DISAGREE | NEUTRAL | TOTALLY_AGREE | TOTALLY_DISAGREE;
 			EducationLevel: HIGH_LEVEL | LOW_LEVEL | MIDDLE_LEVEL;
 			Sex: FEMALE | MALE;
 		};

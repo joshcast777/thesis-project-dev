@@ -11,9 +11,6 @@ import { useTermStore, usePersonStore } from "@/store";
 /* SCHEMAS */
 import { termSchema } from "./schemas";
 
-/* PAGES */
-import Finish from "./Finish";
-
 /* UI COMPONENTS */
 import { Button, Form, FormControl, FormField, FormItem, FormLabel, FormMessage, RadioGroup } from "@/components/ui";
 
@@ -27,7 +24,7 @@ import { PersonAnswerInsert, Term } from "@/types";
 import { cn } from "./lib/utils";
 
 /* CONSTANTS */
-import { AGREE, DEFINITION_AGREEMENT_QUESTION, DISAGREE, EXAMPLE_AGREEMENT_QUESTION, FIELD_ANSWERS, FIELD_DEFINITION_ANSWER, FIELD_DNI, FIELD_EXAMPLE_ANSWER, FIELD_USE_CASE_ANSWER, NEUTRAL, PERSON_DEFAULT, READ_DEFINITION, READ_EXAMPLE, READ_USE_CASE, TOTALLY_AGREE, TOTALLY_DISAGREE, TERM_DEFAULT, USE_CASE_AGREEMENT_QUESTION } from "@/constants";
+import { AGREE, DEFINITION_AGREEMENT_QUESTION, DISAGREE, EXAMPLE_AGREEMENT_QUESTION, FIELD_ANSWERS, FIELD_DEFINITION_ANSWER, FIELD_EXAMPLE_ANSWER, FIELD_USE_CASE_ANSWER, NEUTRAL, READ_DEFINITION, READ_EXAMPLE, READ_USE_CASE, TOTALLY_AGREE, TOTALLY_DISAGREE, TERM_DEFAULT, USE_CASE_AGREEMENT_QUESTION } from "@/constants";
 
 /* ICONS */
 import { Angry, Frown, Laugh, Loader2, Meh, Play, Smile } from "lucide-react";
@@ -98,7 +95,6 @@ export default function TermQuestions(): JSX.Element {
 	const isPersonLoading = usePersonStore(state => state.isLoading);
 	const person = usePersonStore(state => state.person);
 	const addPersonAnswer = usePersonStore(state => state.addPersonAnswer);
-	const getPerson = usePersonStore(state => state.getPerson);
 	const updatePerson = usePersonStore(state => state.updatePerson);
 
 	const currentTerm = useTermStore(state => state.currentTerm);
@@ -109,21 +105,9 @@ export default function TermQuestions(): JSX.Element {
 
 	useEffect(() => {
 		async function getTermInPage(): Promise<void> {
-			if (localStorage.getItem(FIELD_ANSWERS) !== null) {
-				if (JSON.stringify(person) === JSON.stringify(PERSON_DEFAULT)) {
-					await getPerson(localStorage.getItem(FIELD_DNI)!);
+			setCurrentTermIndex(parseInt(localStorage.getItem(FIELD_ANSWERS)!));
 
-					setCurrentTermIndex(parseInt(localStorage.getItem(FIELD_ANSWERS)!));
-
-					if (errorMessage === "") {
-						await getTerm();
-					}
-				} else {
-					setCurrentTermIndex(parseInt(localStorage.getItem(FIELD_ANSWERS)!));
-
-					await getTerm();
-				}
-			}
+			await getTerm();
 		}
 
 		getTermInPage();
@@ -233,10 +217,6 @@ export default function TermQuestions(): JSX.Element {
 				</div>
 			</div>
 		);
-	}
-
-	if (currentTermIndex === -1) {
-		return <Finish />;
 	}
 
 	return (
