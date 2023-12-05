@@ -7,7 +7,7 @@ import { Term } from "@/types";
  *
  * @type {string}
  */
-const TERMS: string = "Terms";
+const TERMS: string = "TermsDev";
 
 /**
  * Name of the complex word field
