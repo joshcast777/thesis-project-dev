@@ -5,11 +5,8 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-/* REACT ROUTER */
-import { useNavigate } from "react-router-dom";
-
 /* STORES */
-import { usePersonStore, useTermStore } from "@/store";
+import { usePersonStore } from "@/store";
 
 /* SCHEMAS */
 import { personSchema } from "@/schemas";
@@ -24,7 +21,7 @@ import { Person, PersonInsert } from "@/types";
 import { cn } from "./lib/utils";
 
 /* CONSTANTS */
-import { FEMALE, FEMALE_NAME, FIELD_AGE, FIELD_DNI, FIELD_EDUCATION_LEVEL, FIELD_NAME, FIELD_SEX, HIGH_LEVEL, LOW_LEVEL, MALE, MALE_NAME, MIDDLE_LEVEL, PERSON_DEFAULT, TERM_ROUTE } from "@/constants";
+import { FEMALE, FEMALE_NAME, FIELD_AGE, FIELD_DNI, FIELD_EDUCATION_LEVEL, FIELD_NAME, FIELD_SEX, HIGH_LEVEL, LOW_LEVEL, MALE, MALE_NAME, MIDDLE_LEVEL, PERSON_DEFAULT } from "@/constants";
 
 /* ICONS */
 import { AlertTriangle, Loader2, Play } from "lucide-react";
@@ -56,24 +53,19 @@ export default function PersonalInformation(): JSX.Element {
 
 	const addPerson = usePersonStore(state => state.addPerson);
 	const getPerson = usePersonStore(state => state.getPerson);
-	const errorPersonMessage = usePersonStore(state => state.errorMessage);
+	const errorMessage = usePersonStore(state => state.errorMessage);
 	const isLoading = usePersonStore(state => state.isLoading);
 	const person = usePersonStore(state => state.person);
 
-	const errorTermMessage = useTermStore(state => state.errorMessage);
-	const getTerm = useTermStore(state => state.getTerm);
-
-	const navigate = useNavigate();
-
 	useEffect(() => {
-		if (errorPersonMessage !== "" || errorTermMessage !== "") {
+		if (errorMessage !== "") {
 			toast({
 				variant: "destructive",
 				title: (<p>Error:</p>) as string & JSX.Element,
-				description: <p>{errorPersonMessage}</p>
+				description: <p>{errorMessage}</p>
 			});
 		}
-	}, [errorPersonMessage, errorTermMessage, toast]);
+	}, [errorMessage, toast]);
 
 	const form = useForm<Person>({
 		resolver: zodResolver(personSchema),
@@ -81,6 +73,7 @@ export default function PersonalInformation(): JSX.Element {
 	});
 
 	async function handleClickValidateDni(): Promise<void> {
+		console.log(form.getValues().dni === "");
 		if (form.getValues().dni === "") {
 			form.setError(FIELD_DNI, {
 				type: "required",
@@ -99,18 +92,12 @@ export default function PersonalInformation(): JSX.Element {
 
 		await getPerson(form.getValues().dni);
 
-		const success: boolean = JSON.stringify(person) === JSON.stringify(PERSON_DEFAULT);
-
-		if (success) {
+		if (JSON.stringify(person) === JSON.stringify(PERSON_DEFAULT)) {
 			setShowForm("show");
 
 			form.clearErrors();
 
 			return;
-		}
-
-		if (!success) {
-			navigate(TERM_ROUTE);
 		}
 	}
 
@@ -119,14 +106,6 @@ export default function PersonalInformation(): JSX.Element {
 			...values,
 			answers: 0
 		});
-
-		if (errorPersonMessage !== "") {
-			await getTerm();
-		}
-
-		if (errorTermMessage !== "") {
-			navigate(TERM_ROUTE);
-		}
 	}
 
 	return (

@@ -1,15 +1,22 @@
-/* ROUTES */
-import AppRoutes from "./routes/AppRoutes";
+/* REACT */
+import { useEffect } from "react";
+
+/* COSNTANST */
+import { FIELD_DNI, PERSON_DEFAULT } from "./constants";
 
 /* STORES */
-import { usePersonStore } from "@/store";
+import { usePersonStore, useTermStore } from "@/store";
+
+/* COMPONENTS */
+import Finish from "./Finish";
+import PersonalInformation from "./PersonalInformation";
+import TermQuestions from "./TermQuestions";
 
 /* ANIMATE CSS */
 import "animate.css";
 
 /* GLOBAL STYLES */
 import "./styles.css";
-import { useEffect } from "react";
 
 /**
  * Init of the application
@@ -19,19 +26,27 @@ import { useEffect } from "react";
  * @returns {JSX.Element}
  */
 export default function App(): JSX.Element {
+	const person = usePersonStore(state => state.person);
 	const getPerson = usePersonStore(state => state.getPerson);
+
+	const currentTermIndex = useTermStore(state => state.currentTermIndex);
 
 	useEffect(() => {
 		async function executeFunctions() {
-			const dni = localStorage.getItem("dni");
-
-			if (dni === undefined) {
-				await getPerson(dni!);
-			}
+			const dni = localStorage.getItem(FIELD_DNI);
+			console.log(dni);
 		}
 
 		executeFunctions();
-	}, []);
+	}, [getPerson]);
 
-	return <AppRoutes />;
+	if (JSON.stringify(person) === JSON.stringify(PERSON_DEFAULT) && localStorage.getItem(FIELD_DNI) === null) {
+		return <PersonalInformation />;
+	}
+
+	if (currentTermIndex === -1) {
+		return <Finish />;
+	}
+
+	return <TermQuestions />;
 }
