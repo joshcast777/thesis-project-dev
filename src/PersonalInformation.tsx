@@ -73,7 +73,6 @@ export default function PersonalInformation(): JSX.Element {
 	});
 
 	async function handleClickValidateDni(): Promise<void> {
-		console.log(form.getValues().dni === "");
 		if (form.getValues().dni === "") {
 			form.setError(FIELD_DNI, {
 				type: "required",

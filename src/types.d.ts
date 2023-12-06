@@ -10,7 +10,7 @@ import { AGREE, AGREEMENT_LEVEL, DISAGREE, EDUCATION_LEVEL, ENUMS, FEMALE, HIGH_
 type Database = {
 	public: {
 		Tables: {
-			Terms: {
+			TermsDev: {
 				Row: {
 					complexWord: string;
 					definition: string;
@@ -21,7 +21,7 @@ type Database = {
 					useCase: string;
 				};
 			};
-			PersonAnswers: {
+			PersonAnswersDev: {
 				Insert: {
 					definitionAnswer: Database[PUBLIC][ENUMS][AGREEMENT_LEVEL];
 					exampleAnswer: Database[PUBLIC][ENUMS][AGREEMENT_LEVEL];
@@ -31,7 +31,7 @@ type Database = {
 					useCaseAnswer: Database[PUBLIC][ENUMS][AGREEMENT_LEVEL];
 				};
 			};
-			Persons: {
+			PersonsDev: {
 				Row: {
 					age: number;
 					answers: number;
@@ -183,7 +183,7 @@ type TermStore = {
 	currentTermIndex: number;
 	errorMessage: string;
 	isLoading: boolean;
-	getTerm: () => Promise<void>;
+	getTerm: (id: number) => Promise<void>;
 	setCurrentTermIndex: (currentTermIndex: number) => void;
 };
 

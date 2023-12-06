@@ -24,7 +24,7 @@ import { PersonAnswerInsert, Term } from "@/types";
 import { cn } from "./lib/utils";
 
 /* CONSTANTS */
-import { AGREE, DEFINITION_AGREEMENT_QUESTION, DISAGREE, EXAMPLE_AGREEMENT_QUESTION, FIELD_ANSWERS, FIELD_DEFINITION_ANSWER, FIELD_EXAMPLE_ANSWER, FIELD_USE_CASE_ANSWER, NEUTRAL, READ_DEFINITION, READ_EXAMPLE, READ_USE_CASE, TOTALLY_AGREE, TOTALLY_DISAGREE, TERM_DEFAULT, USE_CASE_AGREEMENT_QUESTION } from "@/constants";
+import { AGREE, DEFINITION_AGREEMENT_QUESTION, DISAGREE, EXAMPLE_AGREEMENT_QUESTION, FIELD_DEFINITION_ANSWER, FIELD_EXAMPLE_ANSWER, FIELD_USE_CASE_ANSWER, NEUTRAL, READ_DEFINITION, READ_EXAMPLE, READ_USE_CASE, TOTALLY_AGREE, TOTALLY_DISAGREE, TERM_DEFAULT, USE_CASE_AGREEMENT_QUESTION } from "@/constants";
 
 /* ICONS */
 import { Angry, Frown, Laugh, Loader2, Meh, Play, Smile } from "lucide-react";
@@ -105,9 +105,7 @@ export default function TermQuestions(): JSX.Element {
 
 	useEffect(() => {
 		async function getTermInPage(): Promise<void> {
-			setCurrentTermIndex(parseInt(localStorage.getItem(FIELD_ANSWERS)!));
-
-			await getTerm();
+			await getTerm(person.answers + 1);
 		}
 
 		getTermInPage();
@@ -133,7 +131,8 @@ export default function TermQuestions(): JSX.Element {
 		}
 
 		if (errorMessage === "") {
-			await getTerm();
+			setCurrentTermIndex(person.answers);
+			await getTerm(currentTerm.id + 1);
 
 			form.reset();
 		}

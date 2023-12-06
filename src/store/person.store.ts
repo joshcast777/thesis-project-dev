@@ -12,16 +12,16 @@ import { PersonStore, PersonInsert, Person, PersonAnswerInsert } from "@/types";
 import { PostgrestSingleResponse } from "@supabase/supabase-js";
 
 /* CONSTANTS */
-import { PERSON_DEFAULT, ADD_PERSON, ADD_PERSON_ANSWER, GET_PERSON, UPDATE_PERSON, FIELD_DNI, FIELD_ANSWERS } from "@/constants";
+import { PERSON_DEFAULT, ADD_PERSON, ADD_PERSON_ANSWER, GET_PERSON, UPDATE_PERSON } from "@/constants";
 
 /**
  * Store for person
  * @date 21/11/2023 - 1:39:24
  *
  * @type {*}
-*/
+ */
 export const usePersonStore = create<PersonStore>()(
-	devtools((set, get) => ({
+	devtools(set => ({
 		errorMessage: "",
 		isLoading: false,
 		person: PERSON_DEFAULT,
@@ -71,9 +71,6 @@ export const usePersonStore = create<PersonStore>()(
 				false,
 				ADD_PERSON
 			);
-
-			localStorage.setItem(FIELD_DNI, persons[0].dni);
-			localStorage.setItem(FIELD_ANSWERS, persons[0].answers);
 		},
 		addPersonAnswer: async (personAnswer: PersonAnswerInsert): Promise<void> => {
 			set(
@@ -84,8 +81,6 @@ export const usePersonStore = create<PersonStore>()(
 				false,
 				ADD_PERSON_ANSWER
 			);
-
-			const { person } = get();
 
 			const { error }: PostgrestSingleResponse<null> = await addPersonAnswer(personAnswer);
 
@@ -122,8 +117,6 @@ export const usePersonStore = create<PersonStore>()(
 				false,
 				ADD_PERSON_ANSWER
 			);
-
-			localStorage.setItem(FIELD_ANSWERS, person.answers + 1);
 		},
 		getPerson: async (dni: string): Promise<void> => {
 			set(
@@ -171,9 +164,6 @@ export const usePersonStore = create<PersonStore>()(
 				false,
 				GET_PERSON
 			);
-
-			localStorage.setItem(FIELD_DNI, persons[0].dni);
-			localStorage.setItem(FIELD_ANSWERS, persons[0].answers);
 		},
 		updatePerson: async (person: Person): Promise<void> => {
 			set(
