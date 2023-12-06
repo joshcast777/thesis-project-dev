@@ -21,25 +21,24 @@ import { GET_TERM, SET_CURRENT_TERM_INDEX, TERM_DEFAULT } from "@/constants";
  * @type {*}
  */
 export const useTermStore = create<TermStore>()(
-	devtools((set, get) => ({
+	devtools(set => ({
 		currentTerm: TERM_DEFAULT,
 		currentTermIndex: 0,
 		errorMessage: "",
 		isLoading: false,
-		getTerm: async (): Promise<void> => {
+		getTerm: async (id: number): Promise<void> => {
+			console.log(id);
 			set(
 				(state: TermStore): TermStore => ({
 					...state,
-					currentTermIndex: state.currentTermIndex + 1,
+					currentTermIndex: id,
 					isLoading: true
 				}),
 				false,
 				GET_TERM
 			);
 
-			const { currentTermIndex } = get();
-
-			const { data: currentTerm, error }: PostgrestSingleResponse<Term> = await getTerm(currentTermIndex);
+			const { data: currentTerm, error }: PostgrestSingleResponse<Term> = await getTerm(id);
 
 			if (error !== null) {
 				set(

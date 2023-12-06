@@ -1,8 +1,5 @@
-/* REACT */
-import { useEffect } from "react";
-
 /* COSNTANST */
-import { FIELD_DNI, PERSON_DEFAULT } from "./constants";
+import { PERSON_DEFAULT } from "./constants";
 
 /* STORES */
 import { usePersonStore, useTermStore } from "@/store";
@@ -27,23 +24,14 @@ import "./styles.css";
  */
 export default function App(): JSX.Element {
 	const person = usePersonStore(state => state.person);
-	const getPerson = usePersonStore(state => state.getPerson);
 
 	const currentTermIndex = useTermStore(state => state.currentTermIndex);
 
-	useEffect(() => {
-		async function executeFunctions() {
-			const dni = localStorage.getItem(FIELD_DNI);
-			console.log(dni);
-		}
-
-		executeFunctions();
-	}, [getPerson]);
-
-	if (JSON.stringify(person) === JSON.stringify(PERSON_DEFAULT) && localStorage.getItem(FIELD_DNI) === null) {
+	if (JSON.stringify(person) === JSON.stringify(PERSON_DEFAULT)) {
 		return <PersonalInformation />;
 	}
 
+	console.log(currentTermIndex);
 	if (currentTermIndex === -1) {
 		return <Finish />;
 	}
